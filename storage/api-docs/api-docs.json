@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "AI名片(Business Cards) Api",
-        "description": "AI名片(AI Business Cards)是基于企业微信的一款小程序，该小程序主要用于获取客户、联系客户、维护客户、名片携带业务员个人信息、官网信息、公司动态。此功能有助于我们快速落地。",
+        "title": "laravel-api脚手架",
+        "description": "laravel-api脚手架",
         "contact": {
             "email": "darius@matulionis.lt"
         },
@@ -14,15 +14,15 @@
     },
     "servers": [
         {
-            "url": "http://business-card.local",
+            "url": "http://dev.local",
             "description": "本地环境"
         },
         {
-            "url": "http://business-cardf1.newdhb.com",
+            "url": "http://dev.dev.com",
             "description": "开发环境"
         },
         {
-            "url": "http://business-cardf.newdhb.com",
+            "url": "http://dev.stage.com",
             "description": "测试环境"
         },
         {

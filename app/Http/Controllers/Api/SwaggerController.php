@@ -57,17 +57,17 @@ use function GuzzleHttp\Psr7\str;
 /**
  *
  * @OA\Server(
- *      url="http://business-card.local",
+ *      url="http://dev.local",
  *      description="本地环境"
  * )
  *
  * @OA\Server(
- *      url="http://business-cardf1.newdhb.com",
+ *      url="http://dev.dev.com",
  *      description="开发环境"
  * )
  *
  *  @OA\Server(
- *      url="http://business-cardf.newdhb.com",
+ *      url="http://dev.stage.com",
  *      description="测试环境"
  * )
  *
