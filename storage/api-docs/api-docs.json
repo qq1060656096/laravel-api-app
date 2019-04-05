@@ -1,0 +1,1201 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "AI名片(Business Cards) Api",
+        "description": "AI名片(AI Business Cards)是基于企业微信的一款小程序，该小程序主要用于获取客户、联系客户、维护客户、名片携带业务员个人信息、官网信息、公司动态。此功能有助于我们快速落地。",
+        "contact": {
+            "email": "darius@matulionis.lt"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://business-card.local",
+            "description": "本地环境"
+        },
+        {
+            "url": "http://business-cardf1.newdhb.com",
+            "description": "开发环境"
+        },
+        {
+            "url": "http://business-cardf.newdhb.com",
+            "description": "测试环境"
+        },
+        {
+            "url": "",
+            "description": "动态host"
+        }
+    ],
+    "paths": {
+        "/swagger-user/{uid}": {
+            "get": {
+                "tags": [
+                    "swagger用户"
+                ],
+                "summary": "获取用户详情",
+                "description": "获取用户详情",
+                "operationId": "getDemoUser",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/uid"
+                    },
+                    {
+                        "name": "is_del",
+                        "in": "query",
+                        "description": "用户是否删除:[1->获取删除用户,0->获取正常用户]",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "user_name": {
+                                                            "description": "用户名",
+                                                            "type": "string"
+                                                        },
+                                                        "pass": {
+                                                            "description": "密码",
+                                                            "type": "string"
+                                                        },
+                                                        "tag": {
+                                                            "description": "用户标签",
+                                                            "type": "array",
+                                                            "items": {
+                                                                "description": "标签id",
+                                                                "type": "integer",
+                                                                "items": "tagId"
+                                                            }
+                                                        },
+                                                        "departments": {
+                                                            "description": "部门信息",
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "description": "部门id",
+                                                                        "type": "integer"
+                                                                    },
+                                                                    "name": {
+                                                                        "description": "部门名称",
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "default_head_img": {
+                                                            "description": "默认头像",
+                                                            "type": "file"
+                                                        },
+                                                        "videos": {
+                                                            "description": "我的视频",
+                                                            "type": "array",
+                                                            "items": {
+                                                                "description": "视频",
+                                                                "type": "file",
+                                                                "items": "vide"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "swagger用户"
+                ],
+                "summary": "删除用户",
+                "description": "删除用户",
+                "operationId": "getDemoUser",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/uid"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "状态: [T->成功, F->失败]",
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "description": "接口消息",
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "description": "错误码",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "数据",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/swagger-user/post-json": {
+            "post": {
+                "tags": [
+                    "swagger用户"
+                ],
+                "summary": "创建用户",
+                "description": "创建用户",
+                "operationId": "postDemoUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_name",
+                                    "pass"
+                                ],
+                                "properties": {
+                                    "user_name": {
+                                        "description": "用户名",
+                                        "type": "string"
+                                    },
+                                    "pass": {
+                                        "description": "密码",
+                                        "type": "string"
+                                    },
+                                    "departments": {
+                                        "description": "部门信息",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "部门id",
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "description": "部门名称",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "tag": {
+                                        "description": "用户标签",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "标签id",
+                                            "type": "integer",
+                                            "items": "tagId"
+                                        }
+                                    },
+                                    "default_head_img": {
+                                        "description": "默认头像",
+                                        "type": "file"
+                                    },
+                                    "videos": {
+                                        "description": "我的视频",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "视频",
+                                            "type": "file",
+                                            "items": "vide"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "uid": {
+                                                            "description": "用户uid",
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "oauth2": [
+                            "scope"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/swagger-user/post-form-data": {
+            "post": {
+                "tags": [
+                    "swagger用户"
+                ],
+                "summary": "创建用户",
+                "description": "创建用户",
+                "operationId": "postDemoUser",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "user_name",
+                                    "pass"
+                                ],
+                                "properties": {
+                                    "user_name": {
+                                        "description": "用户名",
+                                        "type": "string"
+                                    },
+                                    "pass": {
+                                        "description": "密码",
+                                        "type": "string"
+                                    },
+                                    "departments": {
+                                        "description": "部门信息",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "部门id",
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "description": "部门名称",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "tag": {
+                                        "description": "用户标签",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "标签id",
+                                            "type": "integer",
+                                            "items": "tagId"
+                                        }
+                                    },
+                                    "default_head_img": {
+                                        "description": "默认头像",
+                                        "type": "file"
+                                    },
+                                    "videos": {
+                                        "description": "我的视频",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "视频",
+                                            "type": "file",
+                                            "items": "vide"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "uid": {
+                                                            "description": "用户uid",
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "oauth2": [
+                            "scope"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/swagger-user-ref-class/{uid}": {
+            "get": {
+                "tags": [
+                    "swagger用户ref-class"
+                ],
+                "summary": "获取用户详情",
+                "description": "获取用户详情",
+                "operationId": "getDemoUser",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/uid"
+                    },
+                    {
+                        "name": "is_del",
+                        "in": "query",
+                        "description": "用户是否删除:[1->获取删除用户,0->获取正常用户]",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/swagger_user_schema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "swagger用户ref-class"
+                ],
+                "summary": "删除用户",
+                "description": "删除用户",
+                "operationId": "getDemoUser",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/uid"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/swagger-user-ref-class/post-json": {
+            "post": {
+                "tags": [
+                    "swagger用户ref-class"
+                ],
+                "summary": "创建用户",
+                "description": "创建用户",
+                "operationId": "postDemoUser",
+                "requestBody": {
+                    "description": "swagger_user_request",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/swagger_user_schema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/swagger_user_schema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "oauth2": [
+                            "scope"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/swagger-user-ref-class/post-form-data": {
+            "post": {
+                "tags": [
+                    "swagger用户ref-class"
+                ],
+                "summary": "创建用户",
+                "description": "创建用户",
+                "operationId": "postDemoUser",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/swagger_user_schema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/swagger_user_schema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "oauth2": [
+                            "scope"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/swagger-user-ref/{uid}": {
+            "get": {
+                "tags": [
+                    "swagger用户ref"
+                ],
+                "summary": "获取用户详情",
+                "description": "获取用户详情",
+                "operationId": "getDemoUser",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/uid"
+                    },
+                    {
+                        "name": "is_del",
+                        "in": "query",
+                        "description": "用户是否删除:[1->获取删除用户,0->获取正常用户]",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/swagger_user_raw_schema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "swagger用户ref"
+                ],
+                "summary": "删除用户",
+                "description": "删除用户",
+                "operationId": "getDemoUser",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/uid"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/swagger-user-ref/post-json": {
+            "post": {
+                "tags": [
+                    "swagger用户ref"
+                ],
+                "summary": "创建用户",
+                "description": "创建用户",
+                "operationId": "postDemoUser",
+                "requestBody": {
+                    "description": "swagger_user_request",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/swagger_user_raw_schema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/swagger_user_raw_schema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "oauth2": [
+                            "scope"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/swagger-user-ref/post-form-data": {
+            "post": {
+                "tags": [
+                    "swagger用户ref"
+                ],
+                "summary": "创建用户",
+                "description": "创建用户",
+                "operationId": "postDemoUser",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/swagger_user_raw_schema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/swagger_user_raw_schema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "oauth2": [
+                            "scope"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "response_schema": {
+                "properties": {
+                    "status": {
+                        "description": "状态: [T->成功, F->失败]",
+                        "type": "string"
+                    },
+                    "message": {
+                        "description": "接口消息",
+                        "type": "string"
+                    },
+                    "code": {
+                        "description": "错误码",
+                        "type": "string"
+                    },
+                    "data": {
+                        "description": "数据",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "swagger_user_raw_schema": {
+                "description": "swagger用户",
+                "required": [
+                    "user_name",
+                    "pass"
+                ],
+                "properties": {
+                    "user_name": {
+                        "description": "用户名",
+                        "type": "string"
+                    },
+                    "pass": {
+                        "description": "密码",
+                        "type": "string"
+                    },
+                    "tag": {
+                        "description": "用户标签",
+                        "type": "array",
+                        "items": {
+                            "description": "标签id",
+                            "type": "integer",
+                            "items": "tagId"
+                        }
+                    },
+                    "departments": {
+                        "description": "部门信息",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "部门id",
+                                    "type": "integer"
+                                },
+                                "name": {
+                                    "description": "部门名称",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "default_head_img": {
+                        "description": "默认头像",
+                        "type": "file"
+                    },
+                    "videos": {
+                        "description": "我的视频",
+                        "type": "array",
+                        "items": {
+                            "description": "视频",
+                            "type": "file",
+                            "items": "vide"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "swagger_user_schema": {
+                "description": "swagger用户",
+                "properties": {
+                    "user_name": {
+                        "description": "用户名",
+                        "type": "string"
+                    },
+                    "pass": {
+                        "description": "密码",
+                        "type": "string"
+                    },
+                    "tag_ids": {
+                        "description": "标签",
+                        "type": "array",
+                        "items": {
+                            "description": "标签id",
+                            "type": "integer",
+                            "items": "tagId"
+                        }
+                    },
+                    "departments": {
+                        "description": "部门",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "部门id",
+                                    "type": "integer"
+                                },
+                                "name": {
+                                    "description": "部门名称",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "head_img": {
+                        "description": "头像",
+                        "type": "file"
+                    },
+                    "videos": {
+                        "description": "我的视频",
+                        "type": "array",
+                        "items": {
+                            "description": "视频",
+                            "type": "file",
+                            "items": "vide"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "successful operation"
+            },
+            "400": {
+                "description": "successful operation"
+            },
+            "401": {
+                "description": "successful operation"
+            },
+            "404": {
+                "description": "successful operation"
+            },
+            "405": {
+                "description": "successful operation"
+            },
+            "422": {
+                "description": "successful operation"
+            },
+            "response_400": {
+                "description": "请求错误"
+            },
+            "response_401": {
+                "description": "用户未授权"
+            },
+            "response_404": {
+                "description": "页面不存在"
+            },
+            "response_422": {
+                "description": "Unprocesable entity - [POST/PUT/PATCH] 当创建一个对象时，发生一个验证错误。"
+            },
+            "response_429": {
+                "description": "Too Many Requests - [*] : 用户在给定的时间内发送了太多的请求"
+            },
+            "response_500": {
+                "description": "INTERNAL SERVER ERROR - [*]：服务器发生错误，用户将无法判断发出的请求是否成功"
+            }
+        },
+        "parameters": {
+            "uid": {
+                "name": "uid",
+                "in": "path",
+                "description": "用户uid",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        },
+        "requestBodies": {
+            "swagger_user_request_body": {
+                "description": "swagger_user_request",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/swagger_user_schema"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "Password Based": {
+                "type": "oauth2",
+                "description": "Use a global client_id / client_secret and your username / password combo to obtain a token",
+                "in": "header",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "/oauth/authorize",
+                        "tokenUrl": "/oauth/token",
+                        "refreshUrl": "/oauth/token/refresh",
+                        "scopes": []
+                    }
+                },
+                "scheme": "https"
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    }
+}
