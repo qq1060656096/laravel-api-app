@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::namespace('Api\V1')->group(function () {
+    Route::get('/demo', 'DemoController@index')->name('api.v1.demo.index');
+});
