@@ -11,7 +11,7 @@ namespace App\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
-class UnprocessableEntityHttp extends UnprocessableEntityHttpException
+class UnprocessableEntityHttp extends UnprocessableEntityHttpException implements AppErrorCodeException
 {
     protected $errors = array();
 

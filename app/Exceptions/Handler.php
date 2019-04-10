@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use League\OAuth2\Server\Exception\OAuthException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
@@ -82,10 +83,10 @@ class Handler extends ExceptionHandler
     /**
      * 401 Unauthorized 未授权
      * @param \Illuminate\Http\Request $request
-     * @param OAuthException $exception
+     * @param  $exception
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function unauthenticatedNew($request, OAuthException $exception)
+    public function unauthenticatedNew($request, $exception)
     {
         $message = $exception->getMessage() ? $exception->getMessage() : 'Unauthorized';
         return $this->getExceptionResponseJson(401, 'F', 401, $message, $exception);
