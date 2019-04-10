@@ -7,10 +7,12 @@ use App\Exceptions\OAuthException;
 use App\Exceptions\UnprocessableEntityHttp;
 use App\Http\ApiResponse;
 use App\Models\UserDemoModel;
+use App\OAuth2\Server\Helper\AuthorizerHelper;
 use App\Transformer\UserDemoTransformer;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
@@ -45,5 +47,16 @@ class DemoController extends Controller
         $userDemo->email = "demo@qq.com";
 
         return $response->withItemV1($userDemo, new UserDemoTransformer());
+    }
+
+    public function index2()
+    {
+//        echo 123;exit;
+        $token = Authorizer::getResourceOwnerId();
+        var_dump($token);exit;
+        list($accountId, $accountType, $grantType, $params) = AuthorizerHelper::getDecodeResourceOwnerIdArray();
+//        var_dump($accountId, $accountType, $grantType, $params);
+        exit;
+
     }
 }

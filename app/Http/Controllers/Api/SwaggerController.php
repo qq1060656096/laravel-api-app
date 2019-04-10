@@ -57,7 +57,7 @@ use function GuzzleHttp\Psr7\str;
 /**
  *
  * @OA\Server(
- *      url="http://dev.local",
+ *      url="http://business-card.local",
  *      description="本地环境"
  * )
  *
