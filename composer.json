@@ -8,7 +8,16 @@
         {
             "type": "vcs",
             "url": "https://github.com/qq1060656096/work-wechat.git"
-        }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/qq1060656096/oauth2-server-laravel.git"
+        },
+        {
+            "type": "composer",
+            "url": "https://packagist.laravel-china.org"
+        },
+        {"packagist": false}
     ],
     "require": {
         "php": ">=7.0.0",
