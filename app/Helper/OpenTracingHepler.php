@@ -57,6 +57,7 @@ class OpenTracingHepler
         }
         $globalSpan->setTags(['type' => $type]);
         app()->instance('context.tracer.globalSpan', $globalSpan);
+
     }
 
     /**
@@ -66,5 +67,21 @@ class OpenTracingHepler
     {
         app('context.tracer.globalSpan')->finish();
         app('context.tracer')->flush();
+    }
+
+    /**
+     * 注入jaeger的header
+     * @param mixed $header
+     * @return mixed
+     */
+    public function injectHeader($header)
+    {
+        // 注入jaeger的header
+        $tracer = app('context.tracer');
+        $globalSpan = app('context.tracer.globalSpan');
+        $jaegerHeaders = [];
+        $tracer->inject($globalSpan->getContext(), Formats\TEXT_MAP, $jaegerHeaders);
+        $header = array_merge($header, $jaegerHeaders);
+        return $header;
     }
 }
