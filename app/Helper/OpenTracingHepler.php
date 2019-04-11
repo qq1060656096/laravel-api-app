@@ -20,6 +20,13 @@ use Jaeger\Config as JaegerConfig;
 class OpenTracingHepler
 {
     /**
+     * 是否启用链路监控
+     *
+     * @var bool
+     */
+    protected $enabled = false;
+
+    /**
      * 初始化实例
      * @return OpenTracingHepler|null
      * @throws \Exception
@@ -30,10 +37,14 @@ class OpenTracingHepler
         if ($obj) {
             return $obj;
         }
-        $serverName = env("OPEN_TRACING_SERVER_NAME");
-        $agentHostPort = env("OPEN_TRACING_AGENT_HOST_PORT");
+        $enabled = env("OPEN_TRACING_ENABLED");
         $obj = new OpenTracingHepler();
-        $obj->initTracerInstance($serverName, $agentHostPort);
+        $obj->enabled = $enabled ? true : false;
+        if ($obj->enabled) {
+            $serverName = env("OPEN_TRACING_SERVER_NAME");
+            $agentHostPort = env("OPEN_TRACING_AGENT_HOST_PORT");
+            $obj->initTracerInstance($serverName, $agentHostPort);
+        }
         return $obj;
     }
 
@@ -45,6 +56,9 @@ class OpenTracingHepler
      */
     public function initTracerInstance($serverName, $agentHostPort)
     {
+        if (!$this->enabled) {
+            return;
+        }
         $request = app(\Illuminate\Http\Request::class);
         $routeName = $request->path();
         $config = JaegerConfig::getInstance();
@@ -65,6 +79,9 @@ class OpenTracingHepler
      */
     public function flush()
     {
+        if (!$this->enabled) {
+            return;
+        }
         app('context.tracer.globalSpan')->finish();
         app('context.tracer')->flush();
     }
@@ -76,6 +93,9 @@ class OpenTracingHepler
      */
     public function injectHeader($header)
     {
+        if (!$this->enabled) {
+            return $header;
+        }
         // 注入jaeger的header
         $tracer = app('context.tracer');
         $globalSpan = app('context.tracer.globalSpan');
