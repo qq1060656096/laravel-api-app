@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "http://dev.local",
+            "url": "http://business-card.local",
             "description": "本地环境"
         },
         {
@@ -31,6 +31,76 @@
         }
     ],
     "paths": {
+        "/oauth/token": {
+            "post": {
+                "tags": [
+                    "OAuth2"
+                ],
+                "summary": "",
+                "description": "获取令牌及刷新令牌",
+                "operationId": "获取令牌及刷新令牌",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/swagger_oauth2_schema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/response_400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/response_401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/response_404"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/response_422"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/response_429"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/response_500"
+                    },
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "schema": "UpdateItem",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/response_schema"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/swagger_user_schema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false,
+                "security": [
+                    {
+                        "oauth2": [
+                            "scope"
+                        ]
+                    }
+                ]
+            }
+        },
         "/swagger-user/{uid}": {
             "get": {
                 "tags": [
@@ -1000,6 +1070,48 @@
                     "data": {
                         "description": "数据",
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "swagger_oauth2_schema": {
+                "description": "swagger auth2",
+                "required": [
+                    "user_name",
+                    "pass"
+                ],
+                "properties": {
+                    "grant_type": {
+                        "description": "模式",
+                        "type": "string"
+                    },
+                    "client_id": {
+                        "description": "client_id, 由服务端分配",
+                        "type": "string"
+                    },
+                    "client_secret": {
+                        "description": "client_secret, 由服务端分配",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "用户名（模式为password必填",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "用户密码（模式为password必填）",
+                        "type": "string"
+                    },
+                    "auth_type": {
+                        "description": "code登录[password->密码登录, wx_code->微信登录, wx_applet_code->微信小程序]",
+                        "type": "string"
+                    },
+                    "code": {
+                        "description": "code auth登录code",
+                        "type": "string"
+                    },
+                    "refresh_token": {
+                        "description": "更新令牌，用来获取下一次的访问令牌（模式为 refresh_token 必填）",
+                        "type": "string"
                     }
                 },
                 "type": "object"

@@ -16,8 +16,7 @@
         {
             "type": "composer",
             "url": "https://packagist.laravel-china.org"
-        },
-        {"packagist": false}
+        }
     ],
     "require": {
         "php": ">=7.0.0",
@@ -26,10 +25,12 @@
         "ellipsesynergie/api-response": "^0.15.0",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
+        "jukylin/jaeger-php": "dev-master",
         "laravel/framework": "5.5.*",
         "laravel/passport": "~4.0",
         "laravel/tinker": "~1.0",
         "nesbot/carbon": "1.*",
+        "opentracing/opentracing": "1.0.0-beta2",
         "overtrue/laravel-wechat": "^5.0",
         "predis/predis": "^1.1",
         "sentry/sentry-laravel": "^0.11.0",
