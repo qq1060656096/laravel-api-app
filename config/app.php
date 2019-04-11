@@ -182,6 +182,7 @@ return [
 
         // sentry
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+        \App\OAuth2\Server\Grant\Dhb\DhbCodeGrantServiceProvider::class,
     ],
 
     /*

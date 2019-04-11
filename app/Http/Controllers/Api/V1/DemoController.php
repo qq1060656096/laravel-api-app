@@ -52,7 +52,7 @@ class DemoController extends Controller
     public function index2()
     {
 //        echo 123;exit;
-        $token = Authorizer::getResourceOwnerId();
+        $token = Authorizer::getAccessToken();
         var_dump($token);exit;
         list($accountId, $accountType, $grantType, $params) = AuthorizerHelper::getDecodeResourceOwnerIdArray();
 //        var_dump($accountId, $accountType, $grantType, $params);

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Exceptions\OAuth2Exception;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,4 +27,29 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function findWxCode($code)
+    {
+        if (!$code) {
+            OAuth2Exception::wxCodeOpenIdNotFound();
+        }
+        $user = new User();
+        $user->id = 10;
+        return $user;
+    }
+
+    public function getAuthIdentifier()
+    {
+        return 10;
+    }
+    /**
+     * Retrieve a user by the given credentials.
+     *
+     * @param  array  $credentials
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    public function retrieveByCredentials(array $credentials)
+    {
+        var_dump(__METHOD__, $credentials);exit;
+    }
 }
