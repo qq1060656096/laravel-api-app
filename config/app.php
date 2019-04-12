@@ -184,7 +184,7 @@ return [
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
         // 自定义auth2提供者
         \App\OAuth2\Grants\Custom\CustomAuthGrantServiceProvider::class,
-//        \Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        \App\OAuth2\Grants\WxCode\WxCodeGrantServiceProvider::class,
     ],
 
     /*

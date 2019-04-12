@@ -56,7 +56,8 @@ class Handler extends ExceptionHandler
     {
         switch (true) {
             // 401
-            case $exception instanceof OAuthException:
+            case $exception instanceof OAuthServerException:
+            case $exception instanceof OAuth2Exception:
                 return $this->unauthenticatedNew($request, $exception);
                 break;
             // 404
@@ -137,6 +138,18 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\JsonResponse
      */
     public function httpException($request, HttpException $exception)
+    {
+        $message = $exception->getMessage() ? $exception->getMessage() : 'httpException';
+        return $this->getExceptionResponseJson($exception->getStatusCode(), 'F', $exception->getCode(), $message, $exception);
+    }
+
+    /**
+     * mo
+     * @param $request
+     * @param HttpException $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function defaultException($request, HttpException $exception)
     {
         $message = $exception->getMessage() ? $exception->getMessage() : 'httpException';
         return $this->getExceptionResponseJson($exception->getStatusCode(), 'F', $exception->getCode(), $message, $exception);

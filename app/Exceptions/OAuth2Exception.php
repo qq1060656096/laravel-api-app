@@ -9,8 +9,6 @@
 namespace App\Exceptions;
 
 
-
-
 use League\OAuth2\Server\Exception\OAuthServerException;
 
 class OAuth2Exception extends OAuthServerException implements AppErrorCodeException
