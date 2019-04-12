@@ -6,15 +6,19 @@
  * Time: 21:19
  */
 
-namespace App\OAuth2\Server\Grant\Dhb;
-
+namespace App\OAuth2\Grants\Custom;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
 use Laravel\Passport\Passport;
 use League\OAuth2\Server\AuthorizationServer;
 
-class DhbCodeGrantServiceProvider extends ServiceProvider
+/**
+ * 自定义授权提供者
+ * Class CustomAuthGrantServiceProvider
+ * @package App\OAuth2\Server\Grant\Dhb
+ */
+class CustomAuthGrantServiceProvider extends ServiceProvider
 {
     public function boot()
     {
@@ -27,8 +31,8 @@ class DhbCodeGrantServiceProvider extends ServiceProvider
 
     protected function makeDhbCodeGrant()
     {
-        $grant = new DhbCodeGrant(
-            $this->app->make(DhbCodeGrantRepository::class),
+        $grant = new CustomAuthGrant(
+            $this->app->make(CustomAuthUserRepository::class),
             $this->app->make(RefreshTokenRepository::class)
         );
 

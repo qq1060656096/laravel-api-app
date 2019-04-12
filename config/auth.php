@@ -43,7 +43,7 @@ return [
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'users',
+            'provider' => 'custom',
         ],
     ],
 
@@ -74,6 +74,10 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        'custom' => [
+            'driver' => 'token',
+            'model' => \App\OAuth2\Users\CustomAuthUser::class,
+        ],
     ],
 
     /*

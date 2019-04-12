@@ -7,12 +7,12 @@ use App\Exceptions\OAuthException;
 use App\Exceptions\UnprocessableEntityHttp;
 use App\Http\ApiResponse;
 use App\Models\UserDemoModel;
-use App\OAuth2\Server\Helper\AuthorizerHelper;
+use App\OAuth2\Helper\AuthHelper;
 use App\Transformer\UserDemoTransformer;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
@@ -51,12 +51,7 @@ class DemoController extends Controller
 
     public function index2()
     {
-//        echo 123;exit;
-        $token = Authorizer::getAccessToken();
-        var_dump($token);exit;
-        list($accountId, $accountType, $grantType, $params) = AuthorizerHelper::getDecodeResourceOwnerIdArray();
-//        var_dump($accountId, $accountType, $grantType, $params);
-        exit;
-
+        list($accountId, $accountType, $grantType, $params) = AuthHelper::getUserArr();
+        var_dump($accountId, $accountType, $grantType, $params);exit;
     }
 }

@@ -56,3 +56,17 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+curl -X POST "http://business-card.local/oauth/token" -H "accept: application/json" -H "Content-Type: multipart/form-data" -H "X-CSRF-TOKEN: " -d {"grant_type":"custom_code","client_id":"2","client_secret":"FdN8vcgfTsVy6lfvBEQplawBjwLWorzyUTTB9BbW","username":"dd","password":"","auth_type":"","code":"wx_code","refresh_token":""}
+
+
+curl -X GET \
+  http://business-card.local/api/demo/index2 \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImEwYTYzNTE3NjgwN2ZjM2Y2MjAxN2NhYjg3NjQ5MWMwODE0OTM1ZmFlNmM0NWJhYWM1ZGI0MmNkMTY0OTRkYjFhYWFjODNjNTQxODQ5MjY5In0.eyJhdWQiOiIxIiwianRpIjoiYTBhNjM1MTc2ODA3ZmMzZjYyMDE3Y2FiODc2NDkxYzA4MTQ5MzVmYWU2YzQ1YmFhYzVkYjQyY2QxNjQ5NGRiMWFhYWM4M2M1NDE4NDkyNjkiLCJpYXQiOjE1NTQ5OTMyMzMsIm5iZiI6MTU1NDk5MzIzMywiZXhwIjoxNTU2Mjg5MjMzLCJzdWIiOiJXeUpqZFhOMGIyMWZZMjlrWlNJc0ltUmtJaXdpWkdWbVlYVnNkQ0lzVzEwc0lqQTNaV0psWTJSaU16WXdNMlU1TlRFMk56WTFZbU5sTVdNeVltRXlOakJtT0RCak1URTJaamNpWFElM0QlM0QiLCJzY29wZXMiOltdfQ.E2wlxiPwJUePzVWurpJzHe-rNebMqW3uLZonTYbVIH6YnyW_8WeoH8w6blVpWGoyABLkosCS65AlhYUMB_TJPN1LQocixkHr58j1AfQ2i3R7e5u3C5SSB9ILDob-qzSDtpTfFfvPaUNw_KUx-GKI0n_o-Gfz8aF6DIskQBaTQMxocrCTRXHOc0jcGlFeWKOJGMFTksNdsxg7d-pHpPi8iNTd4GImeVP_RD-H972DGm7nX_VF1Eo-KmkgMmHtapYZqB3lp-zwoDbBY_PHRgxBHhuA-djgby4kethWOxepErMsvULf6GICo7ZyRkAx0OR4vaChzeykkNQVEJbpw1uZT-C8u7JPy7osap1cCV61YFpLQ1Bx1s1yyKNRTy5_TTHVIPGj-QbbNfdE__nFUlSL6ZAwhbWZ_8gcfihOm0Rq5k0s8UmkebD77Nj7AsBUNwV8Vfp7lN_JRfiF4C63XlPlmzREzgqnT4vK5fIUB-7j2pTujJEGMMQKZWoWI4AjXg55NcQP78aW_1Uc1oi4PYu6Sqf7rR_VdGBxCjbOltmxZn34Fe0pkNsD3LpDiGxwUB_i5eEOouJ7sVptsWsUTX1vlCN4vPokXbZIAR5LOvK90tf3AHWBHIZuKv1KI1CHp1Qq0U8up7_5hPd3uAli_YuRyhA-yBIfQpRx1dhc7CDEJNs' \
+  -H 'Postman-Token: 336a5180-e819-4947-8e21-0e9a270f0975' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F accounts_name=whm111 \
+  -F accounts_pass=6e3133357971755135507549546f7269444f38395275446a6d776b683855734b47786c33714c4852596f3833706f6374322b4b5155414c6938546e596f72464c45726557534c6d6234637372485532626c2f3871614c336c785963547352544569456575584b324f473952326f544c5a372f45323741796a657066304f46636577317051576a32686a30595272366a4d786b4961687574384a3842522f4357733952494c462f4a6d4250413d

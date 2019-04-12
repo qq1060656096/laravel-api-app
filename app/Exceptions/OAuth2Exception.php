@@ -10,9 +10,10 @@ namespace App\Exceptions;
 
 
 
-use League\OAuth2\Server\Exception\OAuthException;
 
-class OAuth2Exception extends OAuthException implements AppErrorCodeException
+use League\OAuth2\Server\Exception\OAuthServerException;
+
+class OAuth2Exception extends OAuthServerException implements AppErrorCodeException
 {
     public function __construct($message = "", $code = 0, \Throwable $previous = null)
     {
@@ -22,7 +23,7 @@ class OAuth2Exception extends OAuthException implements AppErrorCodeException
 
     /**
      * client id 没有找到
-     * @throws OAuthException
+     * @throws OAuth2Exception
      */
     public static function clientIdNotFound()
     {
@@ -32,7 +33,7 @@ class OAuth2Exception extends OAuthException implements AppErrorCodeException
 
     /**
      * client id 是空
-     * @throws OAuthException
+     * @throws OAuth2Exception
      */
     public static function clientIdIsEmpty()
     {
@@ -68,6 +69,16 @@ class OAuth2Exception extends OAuthException implements AppErrorCodeException
     {
         $message = trans("auth.client_authentication_failed");
         throw new OAuth2Exception($message, self::CLIENT_AUTHENTICATION_FAILED);
+    }
+
+    /**
+     * token过期
+     * @throws OAuth2Exception
+     */
+    public static function jwtTokenExpired()
+    {
+        $message = trans("auth.jwt_token_expired");
+        throw new OAuth2Exception($message, self::JWT_TOKEN_EXPIRED);
     }
 
     /**

@@ -30,6 +30,11 @@ interface AppErrorCodeException
     const CLIENT_AUTHENTICATION_FAILED = '4010004';
 
     /**
+     * jwt token 过期
+     */
+    const JWT_TOKEN_EXPIRED = '4010005';
+
+    /**
      * 资源拥有者解析失败
      */
     const RESOURCE_OWNER_ID_DECODE_FAILED = '4010010';

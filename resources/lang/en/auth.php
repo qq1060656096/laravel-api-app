@@ -22,6 +22,7 @@ return [
     'client_secret_not_found' => 'client secret not found',
     'client_secret_is_empty' => 'client secret is empty',
     'client_authentication_failed' => 'client authentication failed. new',
+    'jwt_token_expired' => 'jwt token expired',
     'wx_code' => [
         'open_id_not_found' => 'open id not found',
         'code_is_empty' => 'code is empty',

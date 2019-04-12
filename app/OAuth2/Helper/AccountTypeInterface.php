@@ -6,7 +6,7 @@
  * Time: 22:46
  */
 
-namespace App\OAuth2\Server\Helper;
+namespace App\OAuth2\Helper;
 
 
 interface AccountTypeInterface

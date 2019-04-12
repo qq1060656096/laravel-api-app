@@ -182,7 +182,9 @@ return [
 
         // sentry
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
-        \App\OAuth2\Server\Grant\Dhb\DhbCodeGrantServiceProvider::class,
+        // 自定义auth2提供者
+        \App\OAuth2\Grants\Custom\CustomAuthGrantServiceProvider::class,
+//        \Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ],
 
     /*
