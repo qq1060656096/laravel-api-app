@@ -10,7 +10,10 @@ namespace App\OAuth2\Helper;
 
 
 use App\Exceptions\OAuth2Exception;
+use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Support\Facades\Cache;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+use Psr\SimpleCache\CacheInterface;
 use Zwei\WorkWechat\Helpers\SuiteHelper;
 
 /**
@@ -64,7 +67,7 @@ class AuthHelper implements AccountTypeInterface
         $arr = [$grantType, $accountId, $accountType, $params];
         $checkCode = self::getCheckCode($arr);
         $arr[] = $checkCode;
-        return urlencode(base64_encode(json_encode($arr)));
+        return encrypt(json_encode($arr));
     }
 
     /**
@@ -79,7 +82,7 @@ class AuthHelper implements AccountTypeInterface
         // 2. 检测是否解码失败
         // 3. 验证解码出来数组长度不是5
         // 4. 验证解码出来的效验码是否正确
-        $arr = json_decode(base64_decode(urldecode($resourceOwnerId)), true);
+        $arr = json_decode(decrypt($resourceOwnerId), true);
         $arrLen = count($arr);
         if (json_last_error() !== JSON_ERROR_NONE) {
             OAuth2Exception::resourceOwnerIdDecodeFailed();
@@ -128,5 +131,20 @@ class AuthHelper implements AccountTypeInterface
     {
         $cache = \App\Helper\SuiteHelper::getCacheInstance();
         return $cache->get(self::getAccessTokenCacheKey($accessToken));
+    }
+
+    /**
+     * 获取缓存实例
+     * @return CacheInterface
+     */
+    public static function getCacheInstance()
+    {
+        return Cache::store('business-card');
+    }
+
+    public static function saveLoginUser($grantType, $accountId, $accountType, $params = [])
+    {
+        $arr = [$grantType, $accountId, $accountType, $params];
+        json_encode($arr);
     }
 }

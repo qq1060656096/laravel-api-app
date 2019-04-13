@@ -70,3 +70,58 @@ curl -X GET \
   -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
   -F accounts_name=whm111 \
   -F accounts_pass=6e3133357971755135507549546f7269444f38395275446a6d776b683855734b47786c33714c4852596f3833706f6374322b4b5155414c6938546e596f72464c45726557534c6d6234637372485532626c2f3871614c336c785963547352544569456575584b324f473952326f544c5a372f45323741796a657066304f46636577317051576a32686a30595272366a4d786b4961687574384a3842522f4357733952494c462f4a6d4250413d
+  
+### 自定义 passport auth登录
+> 请看 app/OAuth2/Grants/WxCode 目录
+```php
+<?php
+$identifier = \auth()->id();// 获取登录id
+$user       = auth()->user();// 用户登录用户信息
+$userClass  = get_class($user);// 获取登录用户class
+$accountId  = $user->getLoginUser()->getAccountId();// 获取登录用户账户id
+$data = [
+    '$identifier' => $identifier,// login_user_zhaowei7900818574d95a2996bf63784e579d586f99b549
+    '$user' => $user, // App\OAuth2\Users\CustomAuthUser 实例
+    '$userClass' => $userClass, // App\OAuth2\Users\CustomAuthUser
+    '$accountId' => $accountId, // accountId
+];
+var_dump($data);
+/*
+array(4) {
+  ["$identifier"]=>
+  string(58) "login_user_zhaowei7900818574d95a2996bf63784e579d586f99b549"
+    ["$user"]=>
+  object(App\OAuth2\Users\CustomAuthUser)#585 (6) {
+  ["identityName":protected]=>
+    string(2) "id"
+    ["password":protected]=>
+    string(0) ""
+    ["rememberToken":protected]=>
+    string(0) ""
+    ["rememberTokenName":protected]=>
+    string(0) ""
+    ["loginUser":protected]=>
+    object(App\OAuth2\Users\LoginUser)#584 (5) {
+    ["data":"App\OAuth2\Users\LoginUser":private]=>
+      array(0) {
+    }
+      ["grantType":protected]=>
+      string(7) "wx_code"
+    ["accountId":protected]=>
+      string(7) "zhaowei"
+    ["accountType":protected]=>
+      string(7) "default"
+    ["params":protected]=>
+      array(0) {
+    }
+    }
+["id"]=>
+string(58) "login_user_zhaowei7900818574d95a2996bf63784e579d586f99b549"
+}
+["$userClass"]=>
+  string(31) "App\OAuth2\Users\CustomAuthUser"
+["$accountId"]=>
+  string(7) "zhaowei"
+}
+*/
+```

@@ -80,6 +80,26 @@ class OAuth2Exception extends OAuthServerException implements AppErrorCodeExcept
     }
 
     /**
+     * token签名错误
+     * @throws OAuth2Exception
+     */
+    public static function jwtTokenSignature()
+    {
+        $message = trans("auth.jwt_token_signature");
+        throw new OAuth2Exception($message, self::JWT_TOKEN_SIGNATURE);
+    }
+
+    /**
+     * token其他错误
+     * @throws OAuth2Exception
+     */
+    public static function jwtTokenOther()
+    {
+        $message = trans("auth.jwt_token_other");
+        throw new OAuth2Exception($message, self::JWT_TOKEN_OTHER);
+    }
+
+    /**
      * 资源解析失败
      * @throws OAuth2Exception
      */
@@ -87,6 +107,27 @@ class OAuth2Exception extends OAuthServerException implements AppErrorCodeExcept
     {
         $message = trans("auth.resource_owner_id_decode_failed");
         throw new OAuth2Exception($message, self::CLIENT_AUTHENTICATION_FAILED);
+    }
+
+
+    /**
+     * 微信code login_type 没有配置
+     * @throws OAuth2Exception
+     */
+    public static function wxCodeLoginTypeConfigNotFound()
+    {
+        $message = trans("auth.wx_code.login_type_config_not_found");
+        throw new OAuth2Exception($message, self::WX_CODE_LOGIN_TYPE_CONFIG_NOT_FOUND);
+    }
+
+    /**
+     * 微信code login_type 配置错误
+     * @throws OAuth2Exception
+     */
+    public static function wxCodeLoginTypeConfig()
+    {
+        $message = trans("auth.wx_code.login_type_config");
+        throw new OAuth2Exception($message, self::WX_CODE_LOGIN_TYPE_CONFIG);
     }
 
     /**

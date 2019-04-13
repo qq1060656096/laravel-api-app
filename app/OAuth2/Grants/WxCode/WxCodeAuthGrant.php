@@ -65,14 +65,8 @@ class WxCodeAuthGrant extends AbstractGrant
 
     protected function validate(ServerRequestInterface $request,  $client)
     {
-        $code = $this->getRequestParameter('code', $request);
-
-        if (is_null($code)) {
-            throw OAuth2Exception::wxCodeCodeIsEmpty();
-        }
-
         $user = $this->userRepository->getUserEntityByUserCredentials(
-            $code,
+            null,
             null,
             $this->getIdentifier(),
             $client

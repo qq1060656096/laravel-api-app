@@ -9,15 +9,16 @@
 namespace App\OAuth2\Users;
 
 
+use App\Exceptions\OAuth2Exception;
 use App\OAuth2\Helper\AuthHelper;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
- * 自定义AuthUser
- * Class CustomAuthUser
+ * 微信code AuthUser
+ * Class WxCodeAuthUser
  * @package App\OAuth2\Users
  */
-class CustomAuthUser implements Authenticatable
+class WxCodeAuthUser implements Authenticatable
 {
 
 
@@ -37,6 +38,12 @@ class CustomAuthUser implements Authenticatable
      * @var string
      */
     protected $rememberTokenName = "";
+
+    /**
+     * 登录用户信息
+     * @var LoginUser|null
+     */
+    protected $loginUser = null;
 
     /**
      * @inheritdoc
@@ -106,18 +113,48 @@ class CustomAuthUser implements Authenticatable
     }
 
     /**
-     * @param string $grantType 授权类型
-     * @param string $code 微信Code
-     * @return CustomAuthUser
+     * @return LoginUser|null
      */
-    public function findWxCode($grantType, $code)
+    public function getLoginUser(): LoginUser
     {
-        $accountId = $code;
-        $accountType = AuthHelper::ACCOUNT_TYPE_DEFAULT;
-        $params = [];
-        $identifier = AuthHelper::generateEncodeResourceOwnerId($grantType, $accountId, $accountType, $params);
-        $obj = new CustomAuthUser();
-        $obj->setAuthIdentifier($identifier);
+        return $this->loginUser;
+    }
+
+    /**
+     * @param LoginUser|null $loginUser
+     */
+    public function setLoginUser(LoginUser $loginUser)
+    {
+        $this->loginUser = $loginUser;
+    }
+
+
+    /**
+     *
+     * 登录
+     *
+     * @param string $grantType 授权类型
+     * @return WxCodeAuthUser
+     *
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function login($grantType)
+    {
+        $code = request()->input('code');
+        $loginType = request()->input("login_type");
+        $loginTypeConfig  = config('auth_wx_code.'.$loginType);
+        // 没有配置
+        if (!$loginTypeConfig) {
+            OAuth2Exception::wxCodeLoginTypeConfigNotFound();
+        }
+        // 获取验证者类
+        if (!isset($loginTypeConfig['verifier'])) {
+            OAuth2Exception::wxCodeLoginTypeConfig();
+        }
+        $codeVerifierclass = $loginTypeConfig['verifier'];
+        $obj = new $codeVerifierclass();
+        return $obj->loginVerify($grantType, $loginType, $code);
         return $obj;
     }
+
 }

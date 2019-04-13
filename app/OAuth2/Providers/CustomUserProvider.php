@@ -2,21 +2,18 @@
 
 namespace App\OAuth2\Providers;
 
-use App\OAuth2\Grants\Custom\CustomAuthUserRepository;
-use App\OAuth2\Helper\AuthHelper;
 use App\OAuth2\Helper\JwtDecoderHelper;
-use App\OAuth2\Users\CustomAuthUser;
+use App\OAuth2\Users\WxCodeAuthUser;
+use App\OAuth2\Users\LoginUser;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CustomUserProvider implements UserProvider
 {
-    protected $table = "oauth_access_tokens";
 
     /**
      * The hasher implementation.
@@ -47,9 +44,11 @@ class CustomUserProvider implements UserProvider
      */
     public function retrieveById($identifier)
     {
-        $tokenModel = new Token();
-        $obj = new CustomAuthUser();
+        // 查找登录用户
+        $lginUser = LoginUser::find($identifier);
+        $obj = new WxCodeAuthUser();
         $obj->setAuthIdentifier($identifier);
+        $obj->setLoginUser($lginUser);
         return $obj;
     }
 
@@ -74,6 +73,7 @@ class CustomUserProvider implements UserProvider
      */
     public function updateRememberToken(UserContract $user, $token)
     {
+
         return null;
     }
 
@@ -83,20 +83,23 @@ class CustomUserProvider implements UserProvider
      *
      * @param  array  $credentials
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     * @throws
      */
     public function retrieveByCredentials(array $credentials)
     {
-
         if ( !isset($credentials['api_token'])) {
             return null;
         }
-        $jwtToken = $credentials['api_token'];
-        $jwtDecodeArray = JwtDecoderHelper::decode($jwtToken);
-        JwtDecoderHelper::checkExpired($jwtDecodeArray);
+
+        $jwt = $credentials['api_token'];
+        $jwtDecodeArray = JwtDecoderHelper::decode($jwt);
         $identifier = JwtDecoderHelper::getUserIdentifier($jwtDecodeArray);
-        $obj = new CustomAuthUser();
-        $obj->setAuthIdentifier($identifier);
-        return $obj;
+        JwtDecoderHelper::checkExpired($jwtDecodeArray);
+        $user = $this->retrieveById($identifier);
+        if ($user && $this->validateCredentials($user, $credentials)) {
+            return $user;
+        }
+        return $user;
     }
 
     /**
@@ -114,19 +117,8 @@ class CustomUserProvider implements UserProvider
         if (!isset($credentials['api_token'])) {
             return false;
         }
+        $jwt = $credentials['api_token'];
         return true;
     }
 
-    /**
-     * Get the generic user.
-     *
-     * @param  mixed  $user
-     * @return \Illuminate\Auth\GenericUser|null
-     */
-    protected function getGenericUser($user)
-    {
-        if (! is_null($user)) {
-            return new GenericUser((array) $user);
-        }
-    }
 }

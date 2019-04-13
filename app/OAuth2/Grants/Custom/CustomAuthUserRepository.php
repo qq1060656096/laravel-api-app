@@ -10,7 +10,7 @@ namespace App\OAuth2\Grants\Custom;
 
 
 use App\OAuth2\Helper\AuthHelper;
-use App\OAuth2\Users\CustomAuthUser;
+use App\OAuth2\Users\WxCodeAuthUser;
 use http\Exception\RuntimeException;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;

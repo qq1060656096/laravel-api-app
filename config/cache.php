@@ -77,6 +77,11 @@ return [
             'driver' => 'redis',
             'connection' => 'qywx',
         ],
+
+        'business-card' => [
+            'driver' => 'redis',
+            'connection' => 'business-card',
+        ],
     ],
 
     /*

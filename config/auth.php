@@ -76,7 +76,7 @@ return [
         // ],
         'custom' => [
             'driver' => 'token',
-            'model' => \App\OAuth2\Users\CustomAuthUser::class,
+            'model' => \App\OAuth2\Users\WxCodeAuthUser::class,
         ],
     ],
 

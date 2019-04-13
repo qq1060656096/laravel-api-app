@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use League\OAuth2\Server\Exception\OAuthException;
+use PhpParser\Error;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
@@ -54,6 +55,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+
         switch (true) {
             // 401
             case $exception instanceof OAuthServerException:
@@ -75,6 +77,10 @@ class Handler extends ExceptionHandler
             case $exception instanceof HttpException:
                 return $this->httpException($request, $exception);
                 break;
+            default:
+//                var_dump(get_class($exception));exit;
+                return $this->defaultException($request, $exception);
+                break;
 
         }
         return parent::render($request, $exception);
@@ -89,6 +95,9 @@ class Handler extends ExceptionHandler
      */
     public function unauthenticatedNew($request, $exception)
     {
+        if (!$request->expectsJson()) {
+            return parent::render($request, $exception);
+        }
         $message = $exception->getMessage() ? $exception->getMessage() : 'Unauthorized';
         return $this->getExceptionResponseJson(401, 'F', 401, $message, $exception);
     }
@@ -101,6 +110,9 @@ class Handler extends ExceptionHandler
      */
     public function notFound($request, NotFoundException $exception)
     {
+        if (!$request->expectsJson()) {
+            return parent::render($request, $exception);
+        }
         $message = $exception->getMessage() ? $exception->getMessage() : 'not found';
         return $this->getExceptionResponseJson(404, 'F', 404, $message, $exception);
     }
@@ -114,6 +126,9 @@ class Handler extends ExceptionHandler
      */
     public function unprocessableEntity($request, UnprocessableEntityHttp $exception)
     {
+        if (!$request->expectsJson()) {
+            return parent::render($request, $exception);
+        }
         $data['errors'] = $exception->getErrors();
         $message = $exception->getMessage() ? $exception->getMessage() : 'Unprocessable Entity';
         return $this->getExceptionResponseJson(422, 'F', 422, $message, $exception, $data);
@@ -127,6 +142,9 @@ class Handler extends ExceptionHandler
      */
     public function tooManyRequests($request, TooManyRequestsHttpException $exception)
     {
+        if (!$request->expectsJson()) {
+            return parent::render($request, $exception);
+        }
         $message = $exception->getMessage() ? $exception->getMessage() : 'Too Many Requests';
         return $this->getExceptionResponseJson(429, 'F', 429, $message, $exception);
     }
@@ -139,6 +157,9 @@ class Handler extends ExceptionHandler
      */
     public function httpException($request, HttpException $exception)
     {
+        if (!$request->expectsJson()) {
+            return parent::render($request, $exception);
+        }
         $message = $exception->getMessage() ? $exception->getMessage() : 'httpException';
         return $this->getExceptionResponseJson($exception->getStatusCode(), 'F', $exception->getCode(), $message, $exception);
     }
@@ -146,13 +167,21 @@ class Handler extends ExceptionHandler
     /**
      * mo
      * @param $request
-     * @param HttpException $exception
+     * @param Error|Exception $exception
      * @return \Illuminate\Http\JsonResponse
      */
-    public function defaultException($request, HttpException $exception)
+    public function defaultException($request, $exception)
     {
-        $message = $exception->getMessage() ? $exception->getMessage() : 'httpException';
-        return $this->getExceptionResponseJson($exception->getStatusCode(), 'F', $exception->getCode(), $message, $exception);
+        if (!$request->expectsJson()) {
+            return parent::render($request, $exception);
+        }
+        $message = $exception->getMessage() ? $exception->getMessage() : 'exception';
+        $code = $exception->getCode() == 0 ? -1 : $exception->getCode();
+        $httpStatusCode = 500;
+        if (method_exists($exception,'getStatusCode')) {
+            $httpStatusCode = $exception->getStatusCode();
+        }
+        return $this->getExceptionResponseJson($httpStatusCode, 'F', $code, $message, $exception);
     }
     /**
      * 获取异常响应Json

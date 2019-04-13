@@ -10,7 +10,7 @@ namespace App\OAuth2\Grants\WxCode;
 
 
 use App\OAuth2\Helper\AuthHelper;
-use App\OAuth2\Users\CustomAuthUser;
+use App\OAuth2\Users\WxCodeAuthUser;
 use http\Exception\RuntimeException;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;
@@ -39,8 +39,8 @@ class WxCodeAuthUserRepository implements UserRepositoryInterface
             throw new RuntimeException('Unable to determine authentication model from configuration.');
         }
 
-        if (method_exists($model, 'findWxCode')) {
-            $user = (new $model)->findWxCode($grantType, $username);
+        if (method_exists($model, 'login')) {
+            $user = (new $model)->login($grantType);
         }
 
         if (is_null($user)) {

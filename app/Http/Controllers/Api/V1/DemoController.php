@@ -8,6 +8,7 @@ use App\Exceptions\UnprocessableEntityHttp;
 use App\Http\ApiResponse;
 use App\Models\UserDemoModel;
 use App\OAuth2\Helper\AuthHelper;
+use App\OAuth2\Users\LoginUser;
 use App\Transformer\UserDemoTransformer;
 use App\User;
 use Illuminate\Http\Request;
@@ -51,7 +52,55 @@ class DemoController extends Controller
 
     public function index2()
     {
-        list($accountId, $accountType, $grantType, $params) = AuthHelper::getUserArr();
-        var_dump($accountId, $accountType, $grantType, $params);exit;
+        $identifier = \auth()->id();
+        $user       = auth()->user();
+        $userClass  = get_class($user);
+        $accountId  = $user->getLoginUser()->getAccountId();
+        $data = [
+            '$identifier' => $identifier,// login_user_zhaowei7900818574d95a2996bf63784e579d586f99b549
+            '$user' => $user, // App\OAuth2\Users\CustomAuthUser 实例
+            '$userClass' => $userClass, // App\OAuth2\Users\CustomAuthUser
+            '$accountId' => $accountId, // accountId
+        ];
+        var_dump($data);
+        /*
+array(4) {
+  ["$identifier"]=>
+  string(58) "login_user_zhaowei7900818574d95a2996bf63784e579d586f99b549"
+    ["$user"]=>
+  object(App\OAuth2\Users\CustomAuthUser)#585 (6) {
+  ["identityName":protected]=>
+    string(2) "id"
+    ["password":protected]=>
+    string(0) ""
+    ["rememberToken":protected]=>
+    string(0) ""
+    ["rememberTokenName":protected]=>
+    string(0) ""
+    ["loginUser":protected]=>
+    object(App\OAuth2\Users\LoginUser)#584 (5) {
+    ["data":"App\OAuth2\Users\LoginUser":private]=>
+      array(0) {
+    }
+      ["grantType":protected]=>
+      string(7) "wx_code"
+    ["accountId":protected]=>
+      string(7) "zhaowei"
+    ["accountType":protected]=>
+      string(7) "default"
+    ["params":protected]=>
+      array(0) {
+    }
+    }
+["id"]=>
+string(58) "login_user_zhaowei7900818574d95a2996bf63784e579d586f99b549"
+}
+["$userClass"]=>
+  string(31) "App\OAuth2\Users\CustomAuthUser"
+["$accountId"]=>
+  string(7) "zhaowei"
+}
+*/
+        exit;
     }
 }
