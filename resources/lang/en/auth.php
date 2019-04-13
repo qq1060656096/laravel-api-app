@@ -24,6 +24,8 @@ return [
     'client_authentication_failed' => 'client authentication failed. new',
     'jwt_token_expired' => 'jwt token expired',
     'wx_code' => [
+        'login_type_config_not_found' => 'log type config not found',
+        'login_type_config' => 'login type config error',
         'open_id_not_found' => 'open id not found',
         'code_is_empty' => 'code is empty',
     ],
